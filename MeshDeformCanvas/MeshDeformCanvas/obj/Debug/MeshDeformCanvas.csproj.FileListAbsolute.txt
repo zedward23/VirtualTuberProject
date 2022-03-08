@@ -1,0 +1,15 @@
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\bin\Debug\MeshDeformCanvas.exe.config
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\bin\Debug\MeshDeformCanvas.exe
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\bin\Debug\MeshDeformCanvas.pdb
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\obj\Debug\MeshDeformCanvas.csproj.AssemblyReference.cache
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\obj\Debug\MainWindow.g.cs
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\obj\Debug\App.g.cs
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\obj\Debug\MeshDeformCanvas_MarkupCompile.cache
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\obj\Debug\MeshDeformCanvas_MarkupCompile.lref
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\obj\Debug\MainWindow.baml
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\obj\Debug\MeshDeformCanvas.g.resources
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\obj\Debug\MeshDeformCanvas.Properties.Resources.resources
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\obj\Debug\MeshDeformCanvas.csproj.GenerateResource.cache
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\obj\Debug\MeshDeformCanvas.csproj.CoreCompileInputs.cache
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\obj\Debug\MeshDeformCanvas.exe
+C:\Users\Edward\Desktop\VirtualTuberProject\MeshDeformCanvas\MeshDeformCanvas\obj\Debug\MeshDeformCanvas.pdb

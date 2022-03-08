@@ -1,0 +1,30 @@
+﻿<Window x:Class="MeshDeformCanvas.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MeshDeformCanvas"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Canvas 
+        Name= "MyCanvas" 
+        Background="LightBlue" 
+        AllowDrop="True"
+        Focusable="False" 
+        MouseMove="mouseMoving"
+        DragOver="Dragging"
+    >
+        <Button x:Name="Add_Vertex" 
+                Content="Add Vertex" 
+                Canvas.Left="83" 
+                Canvas.Top="350" 
+                Width="75"
+                Click="SpawnVertex"/>
+        <Button Content="Generate Mesh" 
+                Canvas.Left="238" 
+                Canvas.Top="350" 
+                Width="101" 
+                Height="35"
+                Click="GenMesh"/>
+    </Canvas>
+</Window>
