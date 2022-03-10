@@ -22,39 +22,43 @@ namespace MeshDeformCanvas
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+
     public partial class MainWindow : Window
     {
         int eltsAdded;
         int selectedIdx;
 
+        Mesh mesh;
+
         public MainWindow()
         {
             InitializeComponent();
             eltsAdded = 1;
+            mesh = new Mesh();
+
+            Vec2 startPos = new Vec2(200f, 200);
+
+            addVertex(startPos);
+            addVertex(startPos.plus(new Vec2(50f, 0)));
+            addVertex(startPos.plus(new Vec2(0f, 50f)));
+            addVertex(startPos.plus(new Vec2(50f, 50f)));
+            realTimeGen();
         }
 
-        private void SpawnVertex(object sender, RoutedEventArgs e)
+        /*private void SpawnVertex(object sender, RoutedEventArgs e)
         {
-            Brush c = new SolidColorBrush(Color.FromRgb(255, 0, 0));
-            Rectangle newRectangle = new Rectangle
-            {
-                Width = 5,
-                Height = 5,
-                Fill = c,
-                StrokeThickness = 1,
-                Stroke = Brushes.Black
-            };
+            addVertex(new Vec2((float)MyCanvas.ActualWidth / (2f), (float)MyCanvas.ActualHeight / (2f)));
+        }*/
 
-            Canvas.SetLeft(newRectangle, MyCanvas.ActualWidth / (2f));
-            Canvas.SetTop(newRectangle, MyCanvas.ActualHeight / (2f));
+        int canvasToMeshIdx(int canvasIdx)
+        {
+            Rectangle clicked = (Rectangle)MyCanvas.Children[canvasIdx];
+            return Int32.Parse((String)clicked.Tag);
+        }
 
-            eltsAdded++;
-            newRectangle.Tag = "added";
-            newRectangle.Uid = ""+eltsAdded;
-
-            MyCanvas.Children.Add(newRectangle);
-
-            //
+        int meshToCanvasIdx(int meshIdx)
+        {
+            return mesh.vertices[meshIdx].canvasIdx;
         }
 
         private void mouseMoving(object sender, System.Windows.Input.MouseEventArgs e)
@@ -62,10 +66,12 @@ namespace MeshDeformCanvas
             if (e.OriginalSource is Rectangle)
             {
                 Rectangle clicked = (Rectangle)e.OriginalSource;
-                String tag = (String)clicked.Tag;
                 selectedIdx = Int32.Parse(clicked.Uid);
-                if (e.LeftButton == MouseButtonState.Pressed && tag.Equals("added"))
+                if (e.LeftButton == MouseButtonState.Pressed)
                 {
+
+                    int ad = selectedIdx;
+                    var adfdafa = MyCanvas.Children;
                     DragDrop.DoDragDrop((Rectangle)MyCanvas.Children[selectedIdx], (Rectangle)MyCanvas.Children[selectedIdx], DragDropEffects.Move);
                 }
             }
@@ -77,21 +83,64 @@ namespace MeshDeformCanvas
 
             Canvas.SetLeft((Rectangle)MyCanvas.Children[selectedIdx], dropPos.X);
             Canvas.SetTop((Rectangle)MyCanvas.Children[selectedIdx], dropPos.Y);
+
+            int currMeshIdx = canvasToMeshIdx(selectedIdx);
+            mesh.vertices[currMeshIdx].position = new Vec2((float)dropPos.X, (float)dropPos.Y);
+
+            realTimeGen();
+
+
         }
 
-        void drawTriangle(Vec2 pos1, Vec2 pos2, Vec2 pos3)
+        void addVertex(Vec2 pos)
         {
-            MyCanvas.Children.Add(drawLine(pos1, pos2));
-            MyCanvas.Children.Add(drawLine(pos2, pos3));
-            MyCanvas.Children.Add(drawLine(pos3, pos1));
+            mesh.vertices.Add(new Vertex(pos,
+                                         MyCanvas.Children.Count,
+                                         mesh.vertices.Count));
+            drawVertex(mesh.vertices[mesh.vertices.Count - 1]);
+            realTimeGen();
         }
 
-        Line drawLine(Vec2 pos1, Vec2 pos2)
+        void drawVertex(Vertex p)
         {
+            Brush c = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+            Rectangle newRectangle = new Rectangle
+            {
+                Width = 5,
+                Height = 5,
+                Fill = c,
+                StrokeThickness = 1,
+                Stroke = Brushes.Black
+            };
+
+            Canvas.SetLeft(newRectangle, p.position.x);
+            Canvas.SetTop(newRectangle, p.position.y);
+
+            int meshIdx = mesh.vertices.Count-1;
+
+            eltsAdded = MyCanvas.Children.Count;
+            newRectangle.Tag = "" + meshIdx;
+            newRectangle.Uid = "" + eltsAdded;
+
+            MyCanvas.Children.Add(newRectangle);
+        }
+
+        void addLine(Vertex p1, Vertex p2)
+        {
+            mesh.edges.Add(new Edge(p1, p2, mesh.edges.Count, MyCanvas.Children.Count));
+            drawLine(mesh.edges[mesh.edges.Count-1]);
+        }
+
+        void drawLine(Edge e)
+        {
+
             Line l1 = new Line();
 
             l1.Stroke = System.Windows.Media.Brushes.Black;
             l1.Fill = System.Windows.Media.Brushes.Black;
+
+            Vec2 pos1 = e.p1.position;
+            Vec2 pos2 = e.p2.position;
 
             l1.X1 = pos1.x;
             l1.Y1 = pos1.y;
@@ -99,12 +148,13 @@ namespace MeshDeformCanvas
             l1.X2 = pos2.x;
             l1.Y2 = pos2.y;
 
-            l1.Tag = "Line";
+            l1.Tag = "" + (mesh.edges.Count-1);
+            l1.Uid = "" + MyCanvas.Children.Count;
 
-            return l1;
+            MyCanvas.Children.Add(l1);
         }
 
-        private void GenMesh(object sender, RoutedEventArgs e)
+        /*private void GenMesh(object sender, RoutedEventArgs e)
         {
             List<UIElement> toBeRemoved = new List<UIElement>();
 
@@ -124,19 +174,89 @@ namespace MeshDeformCanvas
                 }
             }
 
-            var child1 = MyCanvas.Children[2];
-            var child2 = MyCanvas.Children[3];
-            var child3 = MyCanvas.Children[4];
+            mesh.edges = new List<Edge>();
 
-            Point p1 = new Point(Canvas.GetLeft(child1), Canvas.GetTop(child1));
-            Point p2 = new Point(Canvas.GetLeft(child2), Canvas.GetTop(child2));
-            Point p3 = new Point(Canvas.GetLeft(child3), Canvas.GetTop(child3));
+            for (int i = 0; i < MyCanvas.Children.Count; i++)
+            {
+                if (MyCanvas.Children[i] is Line)
+                {
+                    ((Line)MyCanvas.Children[i]).Uid = "" + i;
+                }
+                if (MyCanvas.Children[i] is Rectangle)
+                {
+                    ((Rectangle)MyCanvas.Children[i]).Uid = "" + i;
+                }
+            }
 
-            Vec2 pos1 = new Vec2((float)p1.X, (float)p1.Y);
-            Vec2 pos2 = new Vec2((float)p2.X, (float)p2.Y);
-            Vec2 pos3 = new Vec2((float)p3.X, (float)p3.Y);
+            for (int i = 0; i < mesh.vertices.Count; i++)
+            {
+                if (i >= 2)
+                {
+                    addLine(mesh.vertices[i], mesh.vertices[i - 1]);
+                    addLine(mesh.vertices[i], mesh.vertices[i - 2]);
+                } else if (i == 1)
+                {
+                    addLine(mesh.vertices[i], mesh.vertices[i - 1]);
+                }
+            }
 
-            drawTriangle(pos1, pos2, pos3);
+        }*/
+
+        void realTimeGen()
+        {
+            
+            List<UIElement> toBeRemoved = new List<UIElement>();
+
+            foreach (UIElement elt in MyCanvas.Children)
+            {
+                if (elt is Line)
+                {
+                    toBeRemoved.Add(elt);
+                }
+            }
+
+            foreach (UIElement elt in toBeRemoved)
+            {
+                if (elt is Line)
+                {
+                    MyCanvas.Children.Remove(elt);
+                }
+            }
+
+            mesh.edges = new List<Edge>();
+
+            for (int i = 0; i < MyCanvas.Children.Count; i++)
+            {
+                if (MyCanvas.Children[i] is Line)
+                {
+                    ((Line)MyCanvas.Children[i]).Uid = "" + i;
+                }
+                if (MyCanvas.Children[i] is Rectangle)
+                {
+                    ((Rectangle)MyCanvas.Children[i]).Uid = "" + i;
+                }
+            }
+
+            for (int i = 0; i < mesh.vertices.Count; i++)
+            {
+                if (i >= 2)
+                {
+                    addLine(mesh.vertices[i], mesh.vertices[i - 1]);
+                    addLine(mesh.vertices[i], mesh.vertices[i - 2]);
+                } else if (i == 1)
+                {
+                    addLine(mesh.vertices[i], mesh.vertices[i - 1]);
+                }
+            }
+        }
+
+        private void Clicked(object sender, MouseButtonEventArgs e)
+        {
+            Point dropPos = e.GetPosition(MyCanvas);
+            if (Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                addVertex(new Vec2((float)dropPos.X, (float)dropPos.Y));
+            }
         }
     }
 }

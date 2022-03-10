@@ -13,18 +13,7 @@
         Focusable="False" 
         MouseMove="mouseMoving"
         DragOver="Dragging"
+        MouseLeftButtonDown="Clicked"
     >
-        <Button x:Name="Add_Vertex" 
-                Content="Add Vertex" 
-                Canvas.Left="83" 
-                Canvas.Top="350" 
-                Width="75"
-                Click="SpawnVertex"/>
-        <Button Content="Generate Mesh" 
-                Canvas.Left="238" 
-                Canvas.Top="350" 
-                Width="101" 
-                Height="35"
-                Click="GenMesh"/>
     </Canvas>
 </Window>
