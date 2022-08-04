@@ -69,9 +69,6 @@ namespace MeshDeformCanvas
                 selectedIdx = Int32.Parse(clicked.Uid);
                 if (e.LeftButton == MouseButtonState.Pressed)
                 {
-
-                    int ad = selectedIdx;
-                    var adfdafa = MyCanvas.Children;
                     DragDrop.DoDragDrop((Rectangle)MyCanvas.Children[selectedIdx], (Rectangle)MyCanvas.Children[selectedIdx], DragDropEffects.Move);
                 }
             }
@@ -86,6 +83,7 @@ namespace MeshDeformCanvas
 
             int currMeshIdx = canvasToMeshIdx(selectedIdx);
             mesh.vertices[currMeshIdx].position = new Vec2((float)dropPos.X, (float)dropPos.Y);
+
 
             realTimeGen();
 
@@ -153,54 +151,6 @@ namespace MeshDeformCanvas
 
             MyCanvas.Children.Add(l1);
         }
-
-        /*private void GenMesh(object sender, RoutedEventArgs e)
-        {
-            List<UIElement> toBeRemoved = new List<UIElement>();
-
-            foreach (UIElement elt in MyCanvas.Children)
-            {
-                if (elt is Line)
-                {
-                    toBeRemoved.Add(elt);
-                }
-            }
-
-            foreach (UIElement elt in toBeRemoved)
-            {
-                if (elt is Line)
-                {
-                    MyCanvas.Children.Remove(elt);
-                }
-            }
-
-            mesh.edges = new List<Edge>();
-
-            for (int i = 0; i < MyCanvas.Children.Count; i++)
-            {
-                if (MyCanvas.Children[i] is Line)
-                {
-                    ((Line)MyCanvas.Children[i]).Uid = "" + i;
-                }
-                if (MyCanvas.Children[i] is Rectangle)
-                {
-                    ((Rectangle)MyCanvas.Children[i]).Uid = "" + i;
-                }
-            }
-
-            for (int i = 0; i < mesh.vertices.Count; i++)
-            {
-                if (i >= 2)
-                {
-                    addLine(mesh.vertices[i], mesh.vertices[i - 1]);
-                    addLine(mesh.vertices[i], mesh.vertices[i - 2]);
-                } else if (i == 1)
-                {
-                    addLine(mesh.vertices[i], mesh.vertices[i - 1]);
-                }
-            }
-
-        }*/
 
         void realTimeGen()
         {
