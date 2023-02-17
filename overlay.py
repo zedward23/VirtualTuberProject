@@ -13,11 +13,6 @@ mask = shapes.astype(bool)
 
 # option first
 background[mask] = cv2.addWeighted(shapes, alpha, shapes, 1 - alpha, 0)[mask]
-cv2.imwrite('combined.png', background)
-# option second
-#background[mask] = cv2.addWeighted(background, alpha, overlay, 1 - alpha, 0)[mask]
-# NOTE : above both option will give you image overlays but effect would be changed
-cv2.imwrite('combined.1.png', background)
 
 #rows,cols,channels = overlay.shape
 

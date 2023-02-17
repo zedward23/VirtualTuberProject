@@ -1,2 +1,3 @@
 ﻿  Application.cpp
+C:\Users\Edward\Desktop\VirtualTuberProject\OpenGLTraining\src\Application.cpp(160,18): warning C4101: 'buffer': unreferenced local variable
   OpenGLTraining.vcxproj -> C:\Users\Edward\Desktop\VirtualTuberProject\OpenGLTraining\Debug\OpenGLTraining.exe

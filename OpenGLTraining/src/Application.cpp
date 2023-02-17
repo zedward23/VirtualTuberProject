@@ -4,6 +4,8 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include "IndexBuffer.h"
+#include "VertexBuffer.h"
 
 //Two String Struct (used to return two strings of two shaders)
 struct ShaderProgramSource
@@ -156,19 +158,16 @@ int main(void)
 
     //Vertex Buffers
     unsigned int buffer;
-    glGenBuffers(1, &buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(positions), positions, GL_STATIC_DRAW);
+
+    VertexBuffer vb = VertexBuffer(positions, sizeof(positions));
+
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
 
     //Index Buffers
-    unsigned int ibo;
-    glGenBuffers(1, &ibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    IndexBuffer ib = IndexBuffer(indices, sizeof(indices));
 
-    //Bind VAO and VBO to 0 so we do accidentally modify them
+    //Bind VAO and VBO to 0 so we don't accidentally modify them
     //glBindBuffer(GL_ARRAY_BUFFER, 0);
     //glBindVertexArray(0);
     //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
