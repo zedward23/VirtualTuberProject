@@ -160,16 +160,16 @@ while cap.isOpened():
         for face_landmarks in results.multi_face_landmarks:
             for idx, lm in enumerate(face_landmarks.landmark):
                 #upper lip
-                if idx == 81 or idx == 13 or idx == 311:
+                if idx == 42 or idx == 13 or idx == 310:
                     x, y = int(lm.x * img_w), int(lm.y * img_h)
                     # Get the 2D Coordinates
                     upperLip.append([int(x*.4), int(y*.4)])
                 #lower lip
-                if idx == 178 or idx == 14 or idx == 402:
+                if idx == 88 or idx == 178 or idx == 14 or idx == 402 or idx == 318:
                     x, y = int(lm.x * img_w), int(lm.y * img_h)
                     # Get the 2D Coordinates
                     lowerLip.append([int(x*.4), int(y*.4)])
-                if idx == 291 or idx == 61:
+                if idx == 183 or idx == 415:
                     x, y = int(lm.x * img_w), int(lm.y * img_h)
                     upperLip.append([int(x*.4), int(y*.4)])
                     lowerLip.append([int(x*.4), int(y*.4)])
@@ -264,8 +264,9 @@ while cap.isOpened():
     position = np.array([[int(nose_2d[0]-100), int(nose_2d[1]-150)]])
     avatar = padToFit(position[0,0], position[0,1], emptyCanvas.copy(), fullhead)
 
-    offsetX = 80
-    offsetY = 120
+    
+    offsetX = 80 + y
+    offsetY = 110 - x
 
     position[0,0] += offsetX
     position[0,1] += offsetY
